@@ -4,86 +4,90 @@
     <meta charset="UTF-8">
     <title>COOKIE CEVIRICI</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #1e1e1e;
-            color: #e0e0e0;
-            margin: 20px;
-        }
-        h1 {
-            color: #ffffff;
-            text-align: center;
-        }
-        .container {
-            background: #2c2c2c;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.6);
-            max-width: 650px;
-            margin: auto;
-        }
-        p {
-            color: #b0b0b0;
-            text-align: center;
-        }
-        textarea {
-            width: 100%;
-            height: 220px;
-            margin-top: 15px;
-            padding: 12px;
-            font-family: monospace;
-            background: #1a1a1a;
-            color: #f5f5f5;
-            border: 1px solid #444;
-            border-radius: 8px;
-        }
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(0,0,0,0.5);
-        }
-        .btn-convert { background: #4CAF50; color: #fff; }
-        .btn-copy { background: #2196F3; color: #fff; }
-        .btn-download { background: #FF5722; color: #fff; }
-        input[type="file"] {
-            background: #1a1a1a;
-            color: #e0e0e0;
-            border: 1px solid #444;
-            padding: 8px;
-            border-radius: 8px;
-            display: block;
-            margin: auto;
-        }
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff; 
+    color: #222; 
+    margin: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+h1 {
+    color: #111;
+    text-align: center;
+}
+.konteynir {
+    background: none; 
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: 100%;
+    margin: auto;
+}
+p {
+    color: #444;
+    text-align: center;
+}
+textarea {
+    width: 80%;
+    height: 220px;
+    margin-top: 15px;
+    padding: 12px;
+    font-family: monospace;
+    background: #f9f9f9;
+    color: #111;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+.tus-group {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+.tus-convert { background: #000000; color: #fff; }
+.tus-copy { background: #000000; color: #fff; }
+.tus-download { background: #000000; color: #fff; }
+input[type="file"] {
+    background: #f9f9f9;
+    color: #222;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+}
+
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
+     <img src="support.png" alt="animekizi" style="display:block; margin: 10px auto 0 auto; width: 150px; height:auto; border-radius:8px;" draggable="false">
+    <div class="konteynir">
         <h1>Cookie Converter</h1>
         <p>.txt dosyasi seciyon bam sonuc aliyon</p>
         <input type="file" id="cookiefile" accept=".txt"><br>
-        <div class="btn-group">
-            <button class="btn-convert" onclick="handleConversion()"><i class="fa-solid fa-code"></i> Convert</button>
-            <button class="btn-copy" onclick="copyOutput()"><i class="fa-solid fa-copy"></i> Copy</button>
-            <button class="btn-download" onclick="downloadOutput()"><i class="fa-solid fa-download"></i> Download</button>
+        <div class="tus-group">
+            <button class="tus-convert" onclick="handleConversion()"></i>Convert</button>
+            <button class="tus-copy" onclick="copyOutput()"></i>Copy</button>
+            <button class="tus-download" onclick="downloadOutput()"></i>Download</button>
         </div>
         <textarea id="output" placeholder="Convertlenmis cookieler burda gozukcek"></textarea>
     </div>
@@ -136,7 +140,7 @@
         function copyOutput() {
             const output = document.getElementById('output');
             if (!output.value) {
-                downloadFunnyImage();
+                atatruk();
                 return;
             }
             output.select();
@@ -147,7 +151,7 @@
         function downloadOutput() {
             const output = document.getElementById('output').value;
             if (!output) {
-                downloadFunnyImage();
+                atatruk();
                 return;
             }
             const blob = new Blob([output], { type: 'text/plain' });
@@ -157,7 +161,7 @@
             link.click();
         }
 
-        function downloadFunnyImage() {
+        function atatruk() {
             const link = document.createElement("a");
             link.href = "mal.png";
             link.download = "mal.png";
