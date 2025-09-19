@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>COOKIE CEVIRICI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            margin: 20px;
+        }
+        h1 {
+            color: #ffffff;
+            text-align: center;
+        }
+        .container {
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.6);
+            max-width: 650px;
+            margin: auto;
+        }
+        p {
+            color: #b0b0b0;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 220px;
+            margin-top: 15px;
+            padding: 12px;
+            font-family: monospace;
+            background: #1a1a1a;
+            color: #f5f5f5;
+            border: 1px solid #444;
+            border-radius: 8px;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+        }
+        .btn-convert { background: #4CAF50; color: #fff; }
+        .btn-copy { background: #2196F3; color: #fff; }
+        .btn-download { background: #FF5722; color: #fff; }
+        input[type="file"] {
+            background: #1a1a1a;
+            color: #e0e0e0;
+            border: 1px solid #444;
+            padding: 8px;
+            border-radius: 8px;
+            display: block;
+            margin: auto;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Cookie Converter</h1>
+        <p>.txt dosyasi seciyon bam sonuc aliyon</p>
+        <input type="file" id="cookiefile" accept=".txt"><br>
+        <div class="btn-group">
+            <button class="btn-convert" onclick="handleConversion()"><i class="fa-solid fa-code"></i> Convert</button>
+            <button class="btn-copy" onclick="copyOutput()"><i class="fa-solid fa-copy"></i> Copy</button>
+            <button class="btn-download" onclick="downloadOutput()"><i class="fa-solid fa-download"></i> Download</button>
+        </div>
+        <textarea id="output" placeholder="Convertlenmis cookieler burda gozukcek"></textarea>
+    </div>
+
+    <script>
+        function handleConversion() {
+            const fileInput = document.getElementById('cookiefile');
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert("dosya seç.");
+                return;
+            }
+            const file = fileInput.files[0];
+            readFile(file, processCookies);
+        }
+
+        function readFile(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const text = event.target.result;
+                callback(text);
+            };
+            reader.onerror = function() {
+                alert("okuyamadim aq");
+            };
+            reader.readAsText(file);
+        }
+
+        function processCookies(content) {
+            const lines = content.split(/\r?\n/);
+            let result = [];
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (!line || line.startsWith("COOKIES FROM:")) continue;
+
+                const parts = line.split("|");
+                if (parts.length < 3) continue;
+
+                let host = parts[0].replace("HOST KEY:", "").trim();
+                let name = parts[1].replace("NAME:", "").trim();
+                let value = parts[2].replace("VALUE:", "").trim();
+
+                let cookieLine = `${host}\tTRUE\t/\tFALSE\t2597573456\t${name}\t${value}`;
+                result.push(cookieLine);
+            }
+
+            document.getElementById('output').value = result.join("\n");
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            if (!output.value) {
+                downloadFunnyImage();
+                return;
+            }
+            output.select();
+            document.execCommand("copy");
+            alert("kopyaladin");
+        }
+
+        function downloadOutput() {
+            const output = document.getElementById('output').value;
+            if (!output) {
+                downloadFunnyImage();
+                return;
+            }
+            const blob = new Blob([output], { type: 'text/plain' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "olusturulanlar.txt";
+            link.click();
+        }
+
+        function downloadFunnyImage() {
+            const link = document.createElement("a");
+            link.href = "mal.png";
+            link.download = "mal.png";
+            link.click();
+        }
+    </script>
+</body>
+</html>
